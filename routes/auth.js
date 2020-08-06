@@ -14,7 +14,7 @@ const {
   getAllActiveUsers
 } = require('../controllers/authControllers');
 
-router.get('/', ensureAuth, getAllUsers);
+router.get('/', getAllUsers);
 
 router.get('/active', ensureAuth, getAllActiveUsers);
 

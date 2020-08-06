@@ -1,26 +1,23 @@
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import axios from 'axios';
+import SiderDemo from './components/dashboard/Sidebar';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const fetchUsers = useCallback(async () => {
+    try {
+      const res = await axios.get('/api/user/');
+      console.log(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+  return <SiderDemo />;
 }
 
 export default App;

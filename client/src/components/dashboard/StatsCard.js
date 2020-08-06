@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { UserContext } from '../../context/userState/userContext';
+import Card from '../presentation/Card';
 
 function StatsCard() {
-  return <div></div>;
+  const { users, loading, error } = useContext(UserContext).state;
+
+  return <Card loading={loading} />;
 }
 
 export default StatsCard;

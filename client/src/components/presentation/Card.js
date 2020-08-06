@@ -1,59 +1,13 @@
-import { Skeleton, Switch, Card, Avatar } from 'antd';
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined
-} from '@ant-design/icons';
+import React from 'react';
+import { Card as AntCard } from 'antd';
 
-const { Meta } = Card;
-
-class App extends React.Component {
-  state = {
-    loading: true
-  };
-
-  onChange = (checked) => {
-    this.setState({ loading: !checked });
-  };
-
-  render() {
-    const { loading } = this.state;
-
-    return (
-      <>
-        <Switch checked={!loading} onChange={this.onChange} />
-
-        <Card style={{ width: 300, marginTop: 16 }} loading={loading}>
-          <Meta
-            avatar={
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-            }
-            title="Card title"
-            description="This is the description"
-          />
-        </Card>
-
-        <Card
-          style={{ width: 300, marginTop: 16 }}
-          actions={[
-            <SettingOutlined key="setting" />,
-            <EditOutlined key="edit" />,
-            <EllipsisOutlined key="ellipsis" />
-          ]}
-        >
-          <Skeleton loading={loading} avatar active>
-            <Meta
-              avatar={
-                <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-              }
-              title="Card title"
-              description="This is the description"
-            />
-          </Skeleton>
-        </Card>
-      </>
-    );
-  }
+export default function Card({ loading }) {
+  console.log(loading);
+  return (
+    <>
+      <AntCard style={{ width: 300, marginTop: 16 }} loading={loading}>
+        <p>Earnings (Monthly)</p>
+      </AntCard>
+    </>
+  );
 }
-
-ReactDOM.render(<App />, mountNode);

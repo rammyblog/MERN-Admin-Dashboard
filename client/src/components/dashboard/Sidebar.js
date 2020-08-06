@@ -7,6 +7,7 @@ import {
   TeamOutlined,
   UserOutlined
 } from '@ant-design/icons';
+import StatsCard from './StatsCard';
 
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
@@ -60,7 +61,7 @@ class SiderDemo extends React.Component {
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              Bill is a cat.
+              <StatsCard />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>

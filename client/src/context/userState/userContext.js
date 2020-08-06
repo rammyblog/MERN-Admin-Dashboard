@@ -10,7 +10,6 @@ import * as types from './userActionTypes';
 
 const initialUserState = {
   loading: false,
-  token: '',
   error: false,
   users: '',
   errResponse: ''

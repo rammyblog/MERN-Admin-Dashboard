@@ -1,13 +1,15 @@
 import React from 'react';
-import SiderDemo from './components/dashboard/Sidebar';
-import { UserContext, UserProvider } from './context/userState/userContext';
-import Dashboard from './components/dashboard/Dashboard';
+import { UserProvider } from './context/userState/userContext';
+import { BrowserRouter as Router } from 'react-router-dom';
+import BaseRoute from './routes';
 
 function App() {
   return (
-    <UserProvider>
-      <Dashboard />
-    </UserProvider>
+    <Router>
+      <UserProvider>
+        <BaseRoute />
+      </UserProvider>
+    </Router>
   );
 }
 

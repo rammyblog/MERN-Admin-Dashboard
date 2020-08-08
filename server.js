@@ -34,20 +34,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // app.use(cors());
 
+// app.use(express.static(path.join(__dirname, '../build')));
+// app.get('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../build'));
+// });
+
+//
+// Server
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/bulid'));
+}
+
 // Route middlewares
 app.use('/api/user', authRoute);
 app.use('/api/v1', docsRoute);
 app.use('/api/post', postRoute);
 
-// Server
-
-app.use(express.static(path.join(__dirname, '../build')));
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../build'));
-});
-
-//
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/bulid'));
-}
 app.listen(port, () => console.log('Server up and running'));

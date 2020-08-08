@@ -46,4 +46,8 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, '../build'));
 });
 
+//
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('client/bulid'));
+}
 app.listen(port, () => console.log('Server up and running'));

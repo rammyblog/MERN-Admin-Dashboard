@@ -8,7 +8,7 @@ const BaseRoute = () => (
   <Switch>
     <Route exact path="/dashboard" component={Dashboard} />
     <Route exact path="/dashboard/users" component={UserListPage} />
-    <Route exact path="/dashboard/user" component={SingleUser} />
+    <Route exact path="/dashboard/users/:id" component={SingleUser} />
   </Switch>
 );
 

@@ -7,7 +7,10 @@
     "start": "node server",
     "dev": "concurrently -n 'server,client' -c 'red,green' \"nodemon server.js\" \"npm run client\"",
     "client": "cd client && npm start",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build"
   },
   "keywords": [],
   "author": "",
@@ -18,8 +21,6 @@
     "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
-    "bootstrap": "^4.5.2",
-    "chart.js": "^2.9.3",
     "concurrently": "^5.2.0",
     "cors": "^2.8.5",
     "cross-env": "^7.0.2",
@@ -29,8 +30,6 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.27",
     "morgan": "^1.10.0",
-    "react-bootstrap": "^1.3.0",
-    "react-chartjs-2": "^2.10.0",
     "styled-components": "^5.1.1",
     "swagger-jsdoc": "^4.0.0",
     "swagger-ui-express": "^4.1.4"

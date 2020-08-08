@@ -1,11 +1,13 @@
 import React from 'react';
 
 import { Table } from 'antd';
+import { Link } from 'react-router-dom';
 
 const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
+    render: (text) => <Link to="/dashboard/users/22">{text}</Link>,
     filters: [
       {
         text: 'Joe',

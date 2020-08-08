@@ -1,6 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Form, Input, Button, Select, Switch, Typography } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Select, Switch, Typography, Tooltip } from 'antd';
+import {
+  UserOutlined,
+  LockOutlined,
+  QuestionCircleOutlined
+} from '@ant-design/icons';
 import DashboardHOC from '../DashboardHOC';
 import { Row, Col } from 'antd';
 import SingleUserStyled from './SingleUserStyled';
@@ -64,7 +68,18 @@ function SingleUser(props) {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  label="Password"
+                  label={
+                    <span>
+                      Change password&nbsp;
+                      <Tooltip
+                        title={
+                          <Link to="/dashboard">Change Password here</Link>
+                        }
+                      >
+                        <QuestionCircleOutlined />
+                      </Tooltip>
+                    </span>
+                  }
                   rules={[
                     {
                       required: true,

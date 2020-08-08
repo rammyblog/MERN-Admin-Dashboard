@@ -40,12 +40,12 @@ function Dashboard() {
   const getUsersData = () => {
     const activeUsers = users
       ? users.filter((user) => user.isActive === true).length
-      : null;
+      : 0;
     const totalStaffs = users
       ? users.filter((user) => user.role === 'staff').length
-      : null;
+      : 0;
 
-    const inActiveUsers = users.length - activeUsers;
+    const inActiveUsers = users ? users.length - activeUsers : 0;
     const userObj = [
       { name: 'Total Users', stats: users.length },
       { name: 'Active Users', stats: activeUsers },

@@ -26,7 +26,7 @@ export const UserProvider = ({ children }) => {
       type: types.USER_START
     });
     try {
-      const res = await axios.get('/api/user/');
+      const res = await axios.get('/api/use/');
       dispatch({
         type: types.USER_SUCCESS,
         payload: res.data.data

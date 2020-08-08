@@ -47,7 +47,7 @@ function Dashboard() {
 
     const inActiveUsers = users ? users.length - activeUsers : 0;
     const userObj = [
-      { name: 'Total Users', stats: users.length },
+      { name: 'Total Users', stats: users ? users.length : 0 },
       { name: 'Active Users', stats: activeUsers },
       { name: 'Total Staffs', stats: totalStaffs },
       { name: 'Total inactive users', stats: inActiveUsers }

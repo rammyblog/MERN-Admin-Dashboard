@@ -2,6 +2,10 @@ import styled from 'styled-components';
 
 const SidebarStyled = styled.div`
   background: #4e73df;
+
+  .ant-layout-sider-collapsed {
+    font-size: 0.5rem;
+  }
   .logo {
     background: #4e73df;
     h2 {
@@ -11,7 +15,8 @@ const SidebarStyled = styled.div`
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 1rem 0rem 2rem 0px;
+      padding: ${(props) => (props.collapsed ? '1rem ' : '1rem 0rem 2rem 0px')};
+      font-size: ${(props) => (props.collapsed ? '0.9rem ' : '1.875rem')};
     }
   }
   .sidebar-items {

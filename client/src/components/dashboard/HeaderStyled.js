@@ -19,6 +19,12 @@ const HeaderStyled = styled.div`
     font-size: 0.8rem;
     padding: 0 0.8rem;
   }
+
+  @media (max-width: 600px) {
+    .name {
+      display: none;
+    }
+  }
 `;
 
 export default HeaderStyled;

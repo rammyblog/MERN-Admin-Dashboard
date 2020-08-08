@@ -41,8 +41,11 @@ const handleValidation = (body, res, type) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    const users = await getUsers({});
-    return res.status(200).json({ data: users });
+    const totalUsers = await getUsers({});
+    // const activeUsers = totalUsers.map((user) => user.active === true);
+    // console.log(activeUsers);
+
+    return res.status(200).json({ data: totalUsers });
   } catch (err) {
     return res.status(400).json({ error_msg: err.message });
   }

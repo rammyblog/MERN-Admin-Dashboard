@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Card } from 'antd';
 import { UserContext } from '../../context/userState/userContext';
 import UserStats from './UserStats/UserStats';
@@ -9,7 +9,7 @@ const { Title } = Typography;
 const index = '1';
 function Dashboard() {
   const { users, loading, error } = useContext(UserContext).state;
-
+  const [userObj, setuserObj] = useState();
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
     datasets: [
@@ -37,10 +37,33 @@ function Dashboard() {
     ]
   };
 
+  const getUsersData = () => {
+    const activeUsers = users
+      ? users.filter((user) => user.isActive === true).length
+      : null;
+    const totalStaffs = users
+      ? users.filter((user) => user.role === 'staff').length
+      : null;
+
+    const inActiveUsers = users.length - activeUsers;
+    const userObj = [
+      { name: 'Total Users', stats: users.length },
+      { name: 'Active Users', stats: activeUsers },
+      { name: 'Total Staffs', stats: totalStaffs },
+      { name: 'Total inactive users', stats: inActiveUsers }
+    ];
+    console.log(userObj);
+    return userObj;
+  };
+
+  useEffect(() => {
+    setuserObj(getUsersData());
+  }, [users]);
+
   return (
     <div className="container">
       <Title>Dashboard</Title>
-      <UserStats loading={loading} />
+      {userObj ? <UserStats users={userObj} loading={loading} /> : null}
       <div className="row">
         <div className="col-md-8">
           <Card title="User overtime">

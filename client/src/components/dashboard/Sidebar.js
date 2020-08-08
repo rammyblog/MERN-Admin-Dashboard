@@ -1,16 +1,25 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Layout, Menu, Typography } from 'antd';
 import { UserOutlined, HomeOutlined, SettingOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import SidebarStyled from './SidebarStyled';
 
+const { Title } = Typography;
 const { Sider } = Layout;
 
 function Sidebar({ collapsed, index }) {
   return (
-    <>
+    <SidebarStyled>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="logo" />
-        <Menu theme="dark" mode="inline" defaultSelectedKeys={[index]}>
+        <div className="logo">
+          <Title level={2}>MERN DASH</Title>
+        </div>
+        <Menu
+          theme="dark"
+          mode="inline"
+          className="sidebar-items"
+          defaultSelectedKeys={[index]}
+        >
           <Menu.Item key="1" icon={<HomeOutlined />}>
             <Link className="text-white" to="/dashboard">
               Dashboard
@@ -26,7 +35,7 @@ function Sidebar({ collapsed, index }) {
           </Menu.Item>
         </Menu>
       </Sider>
-    </>
+    </SidebarStyled>
   );
 }
 

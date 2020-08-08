@@ -5,7 +5,7 @@ import { Layout } from 'antd';
 
 function DashboardHOC(Component, index) {
   return function DashboardCustomHoc(props) {
-    const [collapsed, setCollapsed] = useState(false);
+    const [collapsed, setCollapsed] = useState(true);
     const handleSetCollapsed = () => {
       setCollapsed(!collapsed);
     };

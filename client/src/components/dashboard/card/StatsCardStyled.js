@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const StatsCardStyled = styled.div`
   margin-right: 1rem;
-
+  margin: 0.5rem 0.5rem 0.5rem 0;
   .card-col {
     border-left: 0.25rem solid ${(props) => props.color};
     box-shadow: 0 0.15rem 1.75rem 0 rgba(58, 59, 69, 0.15) !important;

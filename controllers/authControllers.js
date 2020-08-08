@@ -17,7 +17,8 @@ const passwordEncrypt = require('../utils/passwordEncrypt');
 const {
   getUser,
   getUsers,
-  getActiveUsers
+  getActiveUsers,
+  getSingleUserService
 } = require('../services/user.services');
 const { getToken } = require('../services/Token.services');
 
@@ -55,6 +56,15 @@ const getAllActiveUsers = async (req, res) => {
   try {
     const users = await getActiveUsers({ isActive: true });
     return res.status(200).json({ data: users });
+  } catch (err) {
+    return res.status(400).json({ error_msg: err.message });
+  }
+};
+
+const getSingleUser = async (req, res) => {
+  try {
+    const user = await getSingleUserService({ _id: req.params.id });
+    return res.status(200).json({ data: user });
   } catch (err) {
     return res.status(400).json({ error_msg: err.message });
   }
@@ -237,6 +247,7 @@ const changePassword = async (req, res) => {
 
 module.exports = {
   getAllUsers,
+  getSingleUser,
   getAllActiveUsers,
   registerUser,
   loginUser,

@@ -40,6 +40,34 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
+  const fetchSingleUser = useCallback(async (id) => {
+    dispatch({
+      type: types.USER_START
+    });
+    const tempState = { ...state };
+    if (!tempState.users) {
+      try {
+        const res = await axios.get(`/api/user/${id}`);
+        dispatch({
+          type: types.GET_USER,
+          payload: res.data.data
+        });
+      } catch (error) {
+        dispatch({
+          type: types.USER_FAILURE,
+          payload: error.message
+        });
+        console.log(error.message, { error });
+      }
+    } else {
+      const user = tempState.fliter((user) => user._id == id);
+      dispatch({
+        type: types.GET_USER,
+        payload: user
+      });
+    }
+  }, []);
+
   useEffect(() => {
     fetchUsers();
   }, []);
@@ -47,7 +75,8 @@ export const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        state
+        state,
+        fetchSingleUser
       }}
     >
       {children}

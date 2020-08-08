@@ -1,93 +1,70 @@
 import React from 'react';
 
-import { Table } from 'antd';
+import { Table, Switch } from 'antd';
 import { Link } from 'react-router-dom';
 
 const columns = [
   {
+    title: 'ID',
+    dataIndex: '_id',
+    responsive: ['lg']
+  },
+  {
     title: 'Name',
     dataIndex: 'name',
-    render: (text) => <Link to="/dashboard/users/22">{text}</Link>,
+    render: (text, record) => (
+      <Link to={`/dashboard/user/${record._id}`}>{text}</Link>
+    ),
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ['descend']
+  },
+
+  {
+    title: 'Role',
+    dataIndex: 'role',
     filters: [
       {
-        text: 'Joe',
-        value: 'Joe'
+        text: 'Member',
+        value: 'member'
       },
       {
-        text: 'Jim',
-        value: 'Jim'
+        text: 'Admin',
+        value: 'admin'
       },
       {
-        text: 'Submenu',
-        value: 'Submenu',
-        children: [
-          {
-            text: 'Green',
-            value: 'Green'
-          },
-          {
-            text: 'Black',
-            value: 'Black'
-          }
-        ]
+        text: 'Staff',
+        value: 'staff'
       }
     ],
     // specify the condition of filtering result
     // here is that finding the name started with `value`
-    onFilter: (value, record) => record.name.indexOf(value) === 0,
-    sorter: (a, b) => a.name.length - b.name.length,
-    sortDirections: ['descend']
+    onFilter: (value, record) => record.role.indexOf(value) === 0
+  },
+
+  {
+    title: 'email',
+    dataIndex: 'email',
+    sorter: (a, b) => a.email.length - b.email.length,
+    sortDirections: ['descend', 'ascend'],
+    responsive: ['md']
   },
   {
-    title: 'Age',
-    dataIndex: 'age',
-    defaultSortOrder: 'descend',
-    sorter: (a, b) => a.age - b.age
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
+    title: 'Active',
+    dataIndex: 'isActive',
     filters: [
       {
-        text: 'London',
-        value: 'London'
+        text: 'Active',
+        value: true
       },
       {
-        text: 'New York',
-        value: 'New York'
+        text: 'In Active',
+        value: false
       }
     ],
-    filterMultiple: false,
-    onFilter: (value, record) => record.address.indexOf(value) === 0,
-    sorter: (a, b) => a.address.length - b.address.length,
-    sortDirections: ['descend', 'ascend']
-  }
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park'
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park'
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park'
-  },
-  {
-    key: '4',
-    name: 'Jim Red',
-    age: 32,
-    address: 'London No. 2 Lake Park'
+    // specify the condition of filtering result
+    // here is that finding the name started with `value`
+    onFilter: (value, record) => record.isActive === value,
+    render: (bool) => <Switch checked={bool} />
   }
 ];
 
@@ -95,7 +72,7 @@ function onChange(pagination, filters, sorter, extra) {
   console.log('params', pagination, filters, sorter, extra);
 }
 
-function UserTable() {
+function UserTable({ data }) {
   return (
     <>
       <Table columns={columns} dataSource={data} onChange={onChange} />

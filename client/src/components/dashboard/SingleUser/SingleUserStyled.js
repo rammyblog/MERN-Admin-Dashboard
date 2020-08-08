@@ -17,7 +17,12 @@ const SingleUserStyled = styled.div`
   }
 
   .ant-select-selector {
-    padding: 1.6rem !important;
+    /* padding: 1.6rem !important; */
+    height: 3.4rem !important;
+    padding: 0;
+  }
+  .ant-select-selection-item {
+    line-height: 16px !important;
   }
 
   .ant-input {

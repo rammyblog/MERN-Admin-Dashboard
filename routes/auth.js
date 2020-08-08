@@ -11,12 +11,14 @@ const {
   passwordReset,
   changePassword,
   getAllUsers,
-  getAllActiveUsers
+  getAllActiveUsers,
+  getSingleUser
 } = require('../controllers/authControllers');
 
 router.get('/', getAllUsers);
 
 router.get('/active', ensureAuth, getAllActiveUsers);
+router.get('/:id', getSingleUser);
 
 router.post('/register', registerUser);
 

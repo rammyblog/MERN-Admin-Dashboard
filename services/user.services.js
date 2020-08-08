@@ -6,7 +6,16 @@ const getUser = async (query) => {
     if (!user || !user.isActive) {
       throw Error('User not found or not active');
     }
-    console.log(user);
+
+    return user;
+  } catch (err) {
+    throw Error(err);
+  }
+};
+
+const getSingleUserService = async (query) => {
+  try {
+    const user = await User.findOne(query).select('+password');
     return user;
   } catch (err) {
     throw Error(err);
@@ -31,4 +40,4 @@ const getActiveUsers = async (query) => {
   }
 };
 
-module.exports = { getUser, getUsers, getActiveUsers };
+module.exports = { getUser, getUsers, getActiveUsers, getSingleUserService };

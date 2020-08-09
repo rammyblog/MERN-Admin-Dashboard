@@ -10,14 +10,16 @@ import { Row, Col } from 'antd';
 import SingleUserStyled from './SingleUserStyled';
 import { UserContext } from '../../../context/userState/userContext';
 import { Link } from 'react-router-dom';
+import PasswordForm from '../password/PasswordForm';
 
-const { Option } = Select;
-
+const index = 3;
 function SingleUser(props) {
   const { state, fetchSingleUser } = useContext(UserContext);
+  const [passwordFormVisibility, setpasswordFormVisibility] = useState(false);
 
   const { users, error, loading, user } = state;
   // const [initialValues, setinitialValues] = useState(null);
+  const handlePasswordChange = () => {};
 
   const id = props.match.params.id;
 
@@ -28,18 +30,12 @@ function SingleUser(props) {
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
-  // const initialValues = {
-  //   name: 'Onasanya Tunde',
-  //   email: 'onasanyatunde67@gmail.com',
-  //   password: 'eeei*****shshshsh',
-  //   role: 'admin',
-  //   isActive: 'true'
-  // };
+
   return (
     <SingleUserStyled>
       {user ? (
         <>
-          <Typography>Edit Onasanya's Profile</Typography>
+          <Typography>Edit {user.name}'s Profile</Typography>
           <Form
             name="user_details_form"
             className="login-form"
@@ -73,7 +69,12 @@ function SingleUser(props) {
                       Change password&nbsp;
                       <Tooltip
                         title={
-                          <Link to="/dashboard">Change Password here</Link>
+                          <p
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => setpasswordFormVisibility(true)}
+                          >
+                            Change Password
+                          </p>
                         }
                       >
                         <QuestionCircleOutlined />
@@ -155,6 +156,13 @@ function SingleUser(props) {
           </Form>
         </>
       ) : null}
+      <PasswordForm
+        visible={passwordFormVisibility}
+        onCreate={handlePasswordChange}
+        onCancel={() => {
+          setpasswordFormVisibility(false);
+        }}
+      />
     </SingleUserStyled>
   );
 }

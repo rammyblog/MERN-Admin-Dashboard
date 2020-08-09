@@ -68,14 +68,19 @@ const columns = [
   }
 ];
 
-function onChange(pagination, filters, sorter, extra) {
-  console.log('params', pagination, filters, sorter, extra);
-}
+// function onChange(pagination, filters, sorter, extra) {
+//   console.log('params', pagination, filters, sorter, extra);
+// }
 
 function UserTable({ data }) {
   return (
     <>
-      <Table columns={columns} dataSource={data} onChange={onChange} />
+      <Table
+        className="clearfix"
+        columns={columns}
+        dataSource={data}
+        // onChange={onChange}
+      />
     </>
   );
 }

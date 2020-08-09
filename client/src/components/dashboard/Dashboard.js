@@ -78,12 +78,12 @@ function Dashboard() {
   const arrangeUserStats = () => {
     if (usersByMonth) {
       console.log(usersByMonth);
-      usersByMonth.forEach(
-        (data) => (
-          lineStatsData.labels.push(data.month),
-          lineStatsData.datasets[0].data.push(data.count)
-        )
-      );
+      // usersByMonth.forEach(
+      //   (data) => (
+      //     lineStatsData.labels.push(data.month),
+      //     lineStatsData.datasets[0].data.push(data.count)
+      //   )
+      // );
       setLineData(lineStatsData);
     }
   };

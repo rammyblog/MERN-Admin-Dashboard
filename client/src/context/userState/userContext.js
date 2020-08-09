@@ -7,6 +7,7 @@ import React, {
 import userReducer from './userReducer';
 import axios from 'axios';
 import * as types from './userActionTypes';
+import mernDashApi from '../../helpers/apiUtils';
 
 const initialUserState = {
   loading: false,
@@ -14,7 +15,8 @@ const initialUserState = {
   users: '',
   user: null,
   usersByMonth: null,
-  errResponse: ''
+  errResponse: '',
+  message: null
 };
 
 export const UserContext = createContext(initialUserState);
@@ -28,7 +30,7 @@ export const UserProvider = ({ children }) => {
       type: types.USER_START
     });
     try {
-      const res = await axios.get('/api/user/');
+      const res = await mernDashApi.get('/api/user/');
       dispatch({
         type: types.USER_SUCCESS,
         payload: res.data.data
@@ -47,7 +49,7 @@ export const UserProvider = ({ children }) => {
       type: types.USER_START
     });
     try {
-      const res = await axios.get('/api/user/group/group-by-month');
+      const res = await mernDashApi.get('/api/user/group/group-by-month');
       dispatch({
         type: types.GET_USERS_BY_MONTH,
         payload: res.data
@@ -68,7 +70,7 @@ export const UserProvider = ({ children }) => {
     const tempState = { ...state };
     if (!tempState.users) {
       try {
-        const res = await axios.get(`/api/user/${id}`);
+        const res = await mernDashApi.get(`/api/user/single/${id}`);
         dispatch({
           type: types.GET_USER,
           payload: res.data.data
@@ -89,6 +91,41 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
+  const editUserAction = useCallback(async (data) => {
+    dispatch({
+      type: types.USER_START
+    });
+    try {
+      const res = await mernDashApi.patch('/api/user/edit-user', data);
+      dispatch({
+        type: types.USER_EDIT,
+        payload: res.data.data
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_FAILURE,
+        payload: error.response.data.error_msg
+      });
+    }
+  }, []);
+
+  const changeUserPasswordAction = useCallback(async (data) => {
+    dispatch({
+      type: types.USER_START
+    });
+    try {
+      await mernDashApi.post('/api/user/change-password', data);
+      dispatch({
+        type: types.USER_PASSWORD_CHANGE
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_FAILURE,
+        payload: error.response.data.error_msg
+      });
+    }
+  }, []);
+
   useEffect(() => {
     fetchUsers();
     fetchUsersByMonth();
@@ -99,7 +136,9 @@ export const UserProvider = ({ children }) => {
       value={{
         state,
         fetchSingleUser,
-        fetchUsersByMonth
+        fetchUsersByMonth,
+        editUserAction,
+        changeUserPasswordAction
       }}
     >
       {children}

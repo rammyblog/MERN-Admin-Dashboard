@@ -10,7 +10,8 @@ const {
   tokenValidation,
   ensureEmailValidation,
   passwordResetValidation,
-  passwordChangeValidation
+  passwordChangeValidation,
+  userEditValidation
 } = require('../utils/validation');
 const randomTokenGen = require('../utils/generateToken');
 const passwordEncrypt = require('../utils/passwordEncrypt');
@@ -18,7 +19,8 @@ const {
   getUser,
   getUsers,
   getActiveUsers,
-  getSingleUserService
+  getSingleUserService,
+  getAndEditUser
 } = require('../services/user.services');
 const { getToken } = require('../services/Token.services');
 
@@ -28,23 +30,21 @@ const validation = {
   verifyUser: tokenValidation,
   ensureEmail: ensureEmailValidation,
   passwordReset: passwordResetValidation,
-  passwordChange: passwordChangeValidation
+  passwordChange: passwordChangeValidation,
+  editUser: userEditValidation
 };
 
 const handleValidation = (body, res, type) => {
   const { error } = validation[type](body);
+
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    throw Error(error.details[0].message);
   }
-  // eslint-disable-next-line consistent-return
-  return;
 };
 
 const getAllUsers = async (req, res) => {
   try {
     const totalUsers = await getUsers({});
-    // const activeUsers = totalUsers.map((user) => user.active === true);
-    // console.log(activeUsers);
 
     return res.status(200).json({ data: totalUsers });
   } catch (err) {
@@ -120,12 +120,30 @@ const loginUser = async (req, res) => {
       return res.status(400).json({ error_msg: 'Invalid password' });
     }
     //   Create and assign a token
-    const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
+    const token = jwt.sign(
+      { _id: user._id, role: user.role },
+      process.env.TOKEN_SECRET
+    );
     return res.status(200).json({ access_token: token });
   } catch (err) {
     return res.status(400).json({ error_msg: err.message });
   }
 };
+
+const editUserAction = async (req, res) => {
+  try {
+    handleValidation(req.body, res, 'editUser');
+    const { _id } = req.body;
+    const user = await getAndEditUser({ _id }, req.body);
+    return res.json({ data: user });
+  } catch (err) {
+    return res.status(400).json({ error_msg: err.message });
+  }
+};
+
+// const editUserAction = (req, res) => {
+//   handleValidation(req.body, res, 'editUser');
+// };
 
 const verifyUserRegistration = async (req, res) => {
   // Validate the incoming data
@@ -153,11 +171,10 @@ const verifyUserRegistration = async (req, res) => {
 };
 
 const resendVerificationToken = async (req, res) => {
-  handleValidation(req.body, res, 'ensureEmail');
-
-  const { email } = req.body;
-
   try {
+    handleValidation(req.body, res, 'ensureEmail');
+
+    const { email } = req.body;
     const user = await getUser({ email });
     if (user.isActive) {
       return res
@@ -174,11 +191,10 @@ const resendVerificationToken = async (req, res) => {
 };
 
 const sendPasswordResetToken = async (req, res) => {
-  handleValidation(req.body, res, 'ensureEmail');
-
-  const { email } = req.body;
-
   try {
+    handleValidation(req.body, res, 'ensureEmail');
+
+    const { email } = req.body;
     const user = await getUser({ email });
     // Generate and send token
     const token = await randomTokenGen(user);
@@ -190,10 +206,9 @@ const sendPasswordResetToken = async (req, res) => {
 };
 
 const passwordReset = async (req, res) => {
-  handleValidation(req.body, res, 'passwordReset');
-  const { email, reqToken, newPassword } = req.body;
-
   try {
+    handleValidation(req.body, res, 'passwordReset');
+    const { email, reqToken, newPassword } = req.body;
     const token = await getToken({ token: reqToken });
     // User confimation
     const user = await getUser({ email });
@@ -218,26 +233,29 @@ const passwordReset = async (req, res) => {
 };
 
 const changePassword = async (req, res) => {
-  handleValidation(req.body, res, 'passwordChange');
-
-  const { newPassword, oldPassword } = req.body;
-
-  if (newPassword === oldPassword) {
-    return res.status(400).json({
-      error_msg: 'New and Current password is the same, use a new password'
-    });
-  }
-
   try {
+    const { newPassword, oldPassword, admin } = req.body;
     const user = await getUser({ _id: req.user._id });
-    // Ensure old password is equal to db pass
-    const validPass = await bcrypt.compare(oldPassword, user.password);
+    if (admin) {
+      user.password = await passwordEncrypt(newPassword);
+    } else {
+      handleValidation(req.body, res, 'passwordChange');
 
-    if (!validPass) {
-      return res.status(400).json({ error_msg: 'Current password is wrong' });
+      if (newPassword === oldPassword) {
+        return res.status(400).json({
+          error_msg: 'New and Current password is the same, use a new password'
+        });
+      }
+
+      // Ensure old password is equal to db pass
+      const validPass = await bcrypt.compare(oldPassword, user.password);
+
+      if (!validPass) {
+        return res.status(400).json({ error_msg: 'Current password is wrong' });
+      }
+      user.password = await passwordEncrypt(newPassword);
     }
     // Ensure new password not equals to old password
-    user.password = await passwordEncrypt(newPassword);
     await user.save();
     return res.json('Success');
   } catch (err) {
@@ -255,5 +273,6 @@ module.exports = {
   resendVerificationToken,
   sendPasswordResetToken,
   passwordReset,
-  changePassword
+  changePassword,
+  editUserAction
 };

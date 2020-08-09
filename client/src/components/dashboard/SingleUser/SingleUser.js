@@ -14,12 +14,19 @@ import PasswordForm from '../password/PasswordForm';
 
 const index = 3;
 function SingleUser(props) {
-  const { state, fetchSingleUser } = useContext(UserContext);
+  const {
+    state,
+    fetchSingleUser,
+    editUserAction,
+    changeUserPasswordAction
+  } = useContext(UserContext);
   const [passwordFormVisibility, setpasswordFormVisibility] = useState(false);
 
   const { users, error, loading, user } = state;
   // const [initialValues, setinitialValues] = useState(null);
-  const handlePasswordChange = () => {};
+  const handlePasswordChange = (data) => {
+    changeUserPasswordAction(data);
+  };
 
   const id = props.match.params.id;
 
@@ -28,7 +35,8 @@ function SingleUser(props) {
   }, []);
 
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    values._id = user._id;
+    editUserAction(values);
   };
 
   return (

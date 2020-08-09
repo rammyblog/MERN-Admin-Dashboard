@@ -13,6 +13,19 @@ const getUser = async (query) => {
   }
 };
 
+const getAndEditUser = async (query, newData) => {
+  try {
+    const user = await User.findOneAndUpdate(query, newData, {
+      new: true,
+      runValidators: true
+    });
+
+    return user;
+  } catch (err) {
+    throw Error(err);
+  }
+};
+
 const getSingleUserService = async (query) => {
   try {
     const user = await User.findOne(query).select('+password');
@@ -40,4 +53,10 @@ const getActiveUsers = async (query) => {
   }
 };
 
-module.exports = { getUser, getUsers, getActiveUsers, getSingleUserService };
+module.exports = {
+  getUser,
+  getUsers,
+  getActiveUsers,
+  getSingleUserService,
+  getAndEditUser
+};

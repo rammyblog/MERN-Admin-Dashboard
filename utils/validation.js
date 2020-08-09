@@ -5,7 +5,21 @@ const registerValidation = (data) => {
   const schema = Joi.object({
     name: Joi.string().min(6).required(),
     email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required()
+    password: Joi.string().min(6).required(),
+    role: Joi.string().required()
+  });
+
+  return schema.validate(data);
+};
+
+// User edit validation
+const userEditValidation = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(6).required(),
+    email: Joi.string().min(6).required().email(),
+    role: Joi.string().required(),
+    isActive: Joi.boolean().required(),
+    _id: Joi.string().required()
   });
 
   return schema.validate(data);
@@ -67,5 +81,6 @@ module.exports = {
   tokenValidation,
   ensureEmailValidation,
   passwordResetValidation,
-  passwordChangeValidation
+  passwordChangeValidation,
+  userEditValidation
 };

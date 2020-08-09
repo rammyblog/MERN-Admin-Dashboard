@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Sidebar from './Sidebar';
 import PageHeader from './PageHeader';
-import { Layout } from 'antd';
+import { Layout, message } from 'antd';
+import { UserContext } from '../../context/userState/userContext';
 
 function DashboardHOC(Component, index) {
   return function DashboardCustomHoc(props) {
@@ -9,6 +10,20 @@ function DashboardHOC(Component, index) {
     const handleSetCollapsed = () => {
       setCollapsed(!collapsed);
     };
+    const { state } = useContext(UserContext);
+    const { error, errResponse, message: userMessage } = state;
+    useEffect(() => {
+      if (error) {
+        message.error(errResponse);
+      }
+    }, [error]);
+
+    useEffect(() => {
+      if (userMessage) {
+        message.success(userMessage);
+      }
+    }, [userMessage]);
+
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sidebar index={index} collapsed={collapsed} />

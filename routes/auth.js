@@ -12,7 +12,8 @@ const {
   changePassword,
   getAllUsers,
   getAllActiveUsers,
-  getSingleUser
+  getSingleUser,
+  editUserAction
 } = require('../controllers/authControllers');
 const User = require('../models/User');
 const ConvertIntToMonth = require('../helpers/ConvertIntToMonth');
@@ -20,11 +21,13 @@ const ConvertIntToMonth = require('../helpers/ConvertIntToMonth');
 router.get('/', getAllUsers);
 
 router.get('/active', ensureAuth, getAllActiveUsers);
-router.get('/:id', getSingleUser);
+router.get('/single/:id', getSingleUser);
 
 router.post('/register', registerUser);
 
 router.post('/login', loginUser);
+
+router.patch('/edit-user', ensureAuth, editUserAction);
 
 router.post('/verify', verifyUserRegistration);
 

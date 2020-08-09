@@ -1,23 +1,40 @@
-import React from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import React, { useContext, useEffect } from 'react';
+import { Form, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { ReactComponent as LoginSVG } from '../../assets/login.svg';
-import LoginPNG from '../../assets/login.png';
+import { AuthContext } from '../../context/auth/AuthContext';
+import checkAdminAuth from '../../helpers/AdminAuth';
 
-const LoginForm = () => {
+const LoginForm = ({ history }) => {
+  const { LoginAction, state, AuthReset } = useContext(AuthContext);
+  const { token, loading, error, errResponse } = state;
   const onFinish = (values) => {
     console.log('Received values of form: ', values);
+    LoginAction(values);
   };
+
+  useEffect(() => {
+    AuthReset();
+  }, []);
+
+  useEffect(() => {
+    checkAdminAuth(token);
+    if (token) {
+      history.push('/dashboard');
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (error) {
+      message.error(errResponse);
+    }
+  }, [error]);
 
   return (
     <div className="test">
       <div className="container ">
         <div>
           <div className="row justify-content-center align-items-center min-vh-100">
-            <div className="col-md-6 align-self-center">
-              <img src={LoginPNG} className="img-fluid" />
-            </div>
-            <div className="col-md-4 align-self-center">
+            <div className="col-md-4 align-self-center text-center">
               <h2>Welcome Back!</h2>
               <p>Input your login details to continue</p>
               <Form
@@ -69,7 +86,6 @@ const LoginForm = () => {
                   >
                     Log in
                   </Button>
-                  Or <a href="">register now!</a>
                 </Form.Item>
               </Form>
             </div>

@@ -7,7 +7,8 @@ export default (state, action) => {
         ...state,
         loading: true,
         message: null,
-        user: null
+        user: null,
+        error: null
       };
 
     case types.USER_SUCCESS:
@@ -24,6 +25,16 @@ export default (state, action) => {
         error: false,
         errResponse: ''
       };
+    case types.USER_ADD:
+      return {
+        ...state,
+        users: [action.payload, ...state.users],
+        loading: false,
+        error: false,
+        errResponse: '',
+        message: 'Add success'
+      };
+
     case types.USER_EDIT:
       const tempState = state.users
         .slice()

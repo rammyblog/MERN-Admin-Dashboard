@@ -44,6 +44,24 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
+  const addUser = useCallback(async (data) => {
+    dispatch({
+      type: types.USER_START
+    });
+    try {
+      const res = await mernDashApi.post('/api/user/register', data);
+      dispatch({
+        type: types.USER_ADD,
+        payload: res.data.data
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_FAILURE,
+        payload: error.response.data.error_msg
+      });
+    }
+  }, []);
+
   const fetchUsersByMonth = useCallback(async () => {
     dispatch({
       type: types.USER_START
@@ -139,7 +157,8 @@ export const UserProvider = ({ children }) => {
         fetchSingleUser,
         fetchUsersByMonth,
         editUserAction,
-        changeUserPasswordAction
+        changeUserPasswordAction,
+        addUser
       }}
     >
       {children}

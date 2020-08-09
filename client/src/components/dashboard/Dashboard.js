@@ -77,6 +77,7 @@ function Dashboard() {
 
   const arrangeUserStats = () => {
     if (usersByMonth) {
+      console.log(usersByMonth);
       usersByMonth.forEach(
         (data) => (
           lineStatsData.labels.push(data.month),

@@ -36,6 +36,7 @@ const validation = {
 
 const handleValidation = (body, res, type) => {
   const { error } = validation[type](body);
+  console.log(error);
 
   if (error) {
     throw Error(error.details[0].message);
@@ -72,25 +73,22 @@ const getSingleUser = async (req, res) => {
 
 const registerUser = async (req, res) => {
   // Validate data before creating a user
-  handleValidation(req.body, res, 'register');
-
-  //   Checking if the user is already in the db
-  const emailExist = await User.findOne({ email: req.body.email });
-
-  if (emailExist) {
-    return res.status(400).json({ error_msg: 'E-Mail already exists' });
-  }
 
   //   Hash password
   try {
-    req.body.password = await passwordEncrypt(req.body.password);
-  } catch (err) {
-    return res.status(400).json({ error_msg: err });
-  }
-  // Create a new user
-  const user = new User(req.body);
+    await handleValidation(req.body, res, 'register');
+    //   Checking if the user is already in the db
+    const emailExist = await User.findOne({ email: req.body.email });
 
-  try {
+    if (emailExist) {
+      return res.status(400).json({ error_msg: 'E-Mail already exists' });
+    }
+    req.body.password = await passwordEncrypt(req.body.password);
+
+    // Create a new user
+    const user = new User(req.body);
+    console.log(user);
+
     const savedUser = await user.save();
     // Generate and send token
     const token = await randomTokenGen(savedUser);
@@ -102,7 +100,8 @@ const registerUser = async (req, res) => {
     // Send email using sendgrid here
     return res.status(201).json({ data: savedUser });
   } catch (err) {
-    return res.status(400).json(err);
+    // console.log({ err );
+    return res.status(400).json({ error_msg: err.message });
   }
 };
 

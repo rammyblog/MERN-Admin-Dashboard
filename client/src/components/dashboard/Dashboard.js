@@ -84,6 +84,11 @@ function Dashboard() {
       //     lineStatsData.datasets[0].data.push(data.count)
       //   )
       // );
+      for (let index = 0; index < usersByMonth.length; index++) {
+        const data = usersByMonth[index];
+        lineStatsData.labels.push(data.month);
+        lineStatsData.datasets[0].data.push(data.count);
+      }
       setLineData(lineStatsData);
     }
   };

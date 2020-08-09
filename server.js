@@ -33,7 +33,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 // app.use(cors());
-
+// Route middlewares
+app.use('/api/user', authRoute);
+app.use('/api/v1', docsRoute);
+app.use('/api/post', postRoute);
 // Server
 if (process.env.NODE_ENV === 'production') {
   // app.use(express.static('client/build'));
@@ -42,13 +45,8 @@ if (process.env.NODE_ENV === 'production') {
   //   res.sendFile(path.join(`${__dirname}/client/build/index.html`));
   // });
   app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/build/index.html'));
   });
 }
-
-// Route middlewares
-app.use('/api/user', authRoute);
-app.use('/api/v1', docsRoute);
-app.use('/api/post', postRoute);
 
 app.listen(port, () => console.log('Server up and running'));

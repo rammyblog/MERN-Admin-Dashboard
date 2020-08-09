@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Badge } from 'antd';
+import { Layout, Badge, Menu, Dropdown } from 'antd';
 import {
   MenuUnfoldOutlined,
   MenuFoldOutlined,
@@ -12,6 +12,13 @@ import Avatar from 'antd/lib/avatar/avatar';
 const { Header } = Layout;
 
 function PageHeader({ collapsed, toggle }) {
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <span>Log out</span>
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <HeaderStyled>
       <Header className="site-layout-background">
@@ -29,7 +36,14 @@ function PageHeader({ collapsed, toggle }) {
             </Badge>
           </div>
           <div className="name-header mx-3">
-            <Avatar icon={<UserOutlined />} />
+            <Dropdown overlay={menu}>
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Avatar icon={<UserOutlined />} />
+              </a>
+            </Dropdown>
             <span className="name">Onasanya Tunde</span>
           </div>
         </div>

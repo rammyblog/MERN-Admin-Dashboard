@@ -11,7 +11,12 @@ function DashboardHOC(Component, index) {
       setCollapsed(!collapsed);
     };
     const { state } = useContext(UserContext);
-    const { error, errResponse, message: userMessage } = state;
+    const {
+      error,
+      errResponse,
+      message: userMessage,
+      me: loggedInUser
+    } = state;
     useEffect(() => {
       if (error) {
         message.error(errResponse);
@@ -24,11 +29,14 @@ function DashboardHOC(Component, index) {
       }
     }, [userMessage]);
     const { history } = props;
-    console.log(history);
 
     return (
       <Layout style={{ minHeight: '100vh' }}>
-        <Sidebar index={index} collapsed={collapsed} />
+        <Sidebar
+          index={index}
+          collapsed={collapsed}
+          loggedInUserId={loggedInUser ? loggedInUser._id : null}
+        />
         <Layout className="site-layout">
           <PageHeader
             history={props.history}

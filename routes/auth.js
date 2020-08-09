@@ -13,12 +13,14 @@ const {
   getAllUsers,
   getAllActiveUsers,
   getSingleUser,
+  getLoggedInUser,
   editUserAction
 } = require('../controllers/authControllers');
 const User = require('../models/User');
 const ConvertIntToMonth = require('../helpers/ConvertIntToMonth');
 
 router.get('/', getAllUsers);
+router.get('/me', ensureAuth, getLoggedInUser);
 
 router.get('/active', ensureAuth, getAllActiveUsers);
 router.get('/single/:id', getSingleUser);

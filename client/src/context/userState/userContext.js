@@ -14,6 +14,7 @@ const initialUserState = {
   error: false,
   users: '',
   user: null,
+  me: null,
   usersByMonth: null,
   errResponse: '',
   message: null
@@ -38,9 +39,26 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: types.USER_FAILURE,
-        payload: error.message
+        payload: error.response.data.error_msg
       });
-      console.log(error.message, { error });
+    }
+  }, []);
+
+  const fetchLoggedInUser = useCallback(async () => {
+    dispatch({
+      type: types.USER_START
+    });
+    try {
+      const res = await mernDashApi.get('/api/user/me');
+      dispatch({
+        type: types.GET_LOGGED_IN_USER,
+        payload: res.data.data
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_FAILURE,
+        payload: error.response.data.error_msg
+      });
     }
   }, []);
 
@@ -146,6 +164,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    fetchLoggedInUser();
     fetchUsers();
     fetchUsersByMonth();
   }, []);

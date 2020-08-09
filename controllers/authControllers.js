@@ -71,6 +71,16 @@ const getSingleUser = async (req, res) => {
   }
 };
 
+const getLoggedInUser = async (req, res) => {
+  try {
+    console.log(req.user._id);
+    const user = await getSingleUserService({ _id: req.user._id });
+    return res.status(200).json({ data: user });
+  } catch (err) {
+    return res.status(400).json({ error_msg: err.message });
+  }
+};
+
 const registerUser = async (req, res) => {
   // Validate data before creating a user
 
@@ -274,5 +284,6 @@ module.exports = {
   sendPasswordResetToken,
   passwordReset,
   changePassword,
-  editUserAction
+  editUserAction,
+  getLoggedInUser
 };

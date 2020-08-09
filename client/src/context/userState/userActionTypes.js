@@ -9,3 +9,4 @@ export const USER_DELETE = 'USER_DELETE';
 
 export const USER_EDIT = 'USER_EDIT';
 export const USER_PASSWORD_CHANGE = 'USER_PASSWORD_CHANGE';
+export const GET_LOGGED_IN_USER = 'GET_LOGGED_IN_USER';

@@ -7,7 +7,7 @@ import SidebarStyled from './SidebarStyled';
 const { Title } = Typography;
 const { Sider } = Layout;
 
-function Sidebar({ collapsed, index }) {
+function Sidebar({ collapsed, index, loggedInUserId }) {
   return (
     <SidebarStyled collapsed={collapsed}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
@@ -31,6 +31,7 @@ function Sidebar({ collapsed, index }) {
             </Link>
           </Menu.Item>
           <Menu.Item key="3" icon={<SettingOutlined />}>
+            <Link to={`/dashboard/user/${loggedInUserId}`}></Link>
             Account Settings
           </Menu.Item>
         </Menu>

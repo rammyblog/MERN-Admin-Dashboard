@@ -79,6 +79,7 @@ function UserTable({ data }) {
         className="clearfix"
         columns={columns}
         dataSource={data}
+        style={{ clear: 'both' }}
         // onChange={onChange}
       />
     </>

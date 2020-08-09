@@ -11,11 +11,15 @@ import Avatar from 'antd/lib/avatar/avatar';
 
 const { Header } = Layout;
 
-function PageHeader({ collapsed, toggle }) {
+function PageHeader({ collapsed, toggle, history }) {
+  const handleLogout = () => {
+    localStorage.removeItem('mern_admin_dashboard');
+    history.push('/user/login');
+  };
   const menu = (
     <Menu>
       <Menu.Item>
-        <span>Log out</span>
+        <span onClick={() => handleLogout()}>Log out</span>
       </Menu.Item>
     </Menu>
   );

@@ -23,12 +23,18 @@ function DashboardHOC(Component, index) {
         message.success(userMessage);
       }
     }, [userMessage]);
+    const { history } = props;
+    console.log(history);
 
     return (
       <Layout style={{ minHeight: '100vh' }}>
         <Sidebar index={index} collapsed={collapsed} />
         <Layout className="site-layout">
-          <PageHeader collapsed={collapsed} toggle={handleSetCollapsed} />
+          <PageHeader
+            history={props.history}
+            collapsed={collapsed}
+            toggle={handleSetCollapsed}
+          />
           <div className="container">
             <Component {...props} />
           </div>

@@ -124,6 +124,7 @@ export const UserProvider = ({ children }) => {
         payload: error.response.data.error_msg
       });
     }
+    fetchSingleUser(data._id);
   }, []);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Modal, Form, Input, Radio } from 'antd';
 
-const PasswordForm = ({ visible, onCreate, onCancel }) => {
+const PasswordForm = ({ visible, onCreate, onCancel, id }) => {
   const [form] = Form.useForm();
   return (
     <Modal
@@ -15,6 +15,8 @@ const PasswordForm = ({ visible, onCreate, onCancel }) => {
           .validateFields()
           .then((values) => {
             form.resetFields();
+            values.admin = true;
+            values._id = id;
             onCreate(values);
           })
           .catch((info) => {

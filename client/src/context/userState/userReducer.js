@@ -44,7 +44,6 @@ export default (state, action) => {
         loading: false,
         error: false,
         errResponse: '',
-
         message: 'Password change success'
       };
     case types.GET_USERS_BY_MONTH:

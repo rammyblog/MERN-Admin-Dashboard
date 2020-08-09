@@ -26,6 +26,7 @@ function SingleUser(props) {
   // const [initialValues, setinitialValues] = useState(null);
   const handlePasswordChange = (data) => {
     changeUserPasswordAction(data);
+    setpasswordFormVisibility(false);
   };
 
   const id = props.match.params.id;
@@ -170,6 +171,7 @@ function SingleUser(props) {
         onCancel={() => {
           setpasswordFormVisibility(false);
         }}
+        id={id}
       />
     </SingleUserStyled>
   );

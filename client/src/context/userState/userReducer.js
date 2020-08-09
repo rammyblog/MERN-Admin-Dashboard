@@ -23,6 +23,15 @@ export default (state, action) => {
         errResponse: ''
       };
 
+    case types.GET_USERS_BY_MONTH:
+      return {
+        ...state,
+        loading: false,
+        usersByMonth: action.payload,
+        error: false,
+        errResponse: ''
+      };
+
     case types.USER_FAILURE:
       return {
         ...state,

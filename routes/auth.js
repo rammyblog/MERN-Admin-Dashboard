@@ -14,6 +14,8 @@ const {
   getAllActiveUsers,
   getSingleUser
 } = require('../controllers/authControllers');
+const User = require('../models/User');
+const ConvertIntToMonth = require('../helpers/ConvertIntToMonth');
 
 router.get('/', getAllUsers);
 
@@ -36,5 +38,29 @@ router.post('/password-reset', passwordReset);
 
 // User change password
 router.post('/change-password', ensureAuth, changePassword);
+
+router.get('/group/group-by-month', async (req, res) => {
+  try {
+    const users = await User.aggregate([
+      {
+        $group: {
+          // _id: '$_id',
+          _id: { month: { $month: '$date' } },
+          count: { $sum: 1 }
+        }
+      }
+    ]);
+    console.log(users);
+    const response = users.map((user) => ({
+      month: ConvertIntToMonth(user._id.month),
+      count: user.count
+    }));
+    console.log(response);
+    return res.json(response);
+    // console.log(user);
+  } catch (err) {
+    console.log(err);
+  }
+});
 
 module.exports = router;

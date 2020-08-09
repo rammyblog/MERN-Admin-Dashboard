@@ -12,6 +12,8 @@ const initialUserState = {
   loading: false,
   error: false,
   users: '',
+  user: null,
+  usersByMonth: null,
   errResponse: ''
 };
 
@@ -30,6 +32,25 @@ export const UserProvider = ({ children }) => {
       dispatch({
         type: types.USER_SUCCESS,
         payload: res.data.data
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_FAILURE,
+        payload: error.message
+      });
+      console.log(error.message, { error });
+    }
+  }, []);
+
+  const fetchUsersByMonth = useCallback(async () => {
+    dispatch({
+      type: types.USER_START
+    });
+    try {
+      const res = await axios.get('/api/user/group/group-by-month');
+      dispatch({
+        type: types.GET_USERS_BY_MONTH,
+        payload: res.data
       });
     } catch (error) {
       dispatch({
@@ -70,13 +91,15 @@ export const UserProvider = ({ children }) => {
 
   useEffect(() => {
     fetchUsers();
+    fetchUsersByMonth();
   }, []);
 
   return (
     <UserContext.Provider
       value={{
         state,
-        fetchSingleUser
+        fetchSingleUser,
+        fetchUsersByMonth
       }}
     >
       {children}

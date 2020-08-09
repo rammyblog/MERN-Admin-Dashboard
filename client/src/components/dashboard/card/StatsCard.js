@@ -4,7 +4,6 @@ import StatsCardStyled from './StatsCardStyled';
 import { UserAddOutlined } from '@ant-design/icons';
 
 function StatsCard({ loading, stats, color }) {
-  console.log(color);
   return (
     <StatsCardStyled color={color}>
       <AntCard className="card-col" loading={loading}>

@@ -8,12 +8,17 @@ import DashboardHOC from './DashboardHOC';
 const { Title } = Typography;
 const index = '1';
 function Dashboard() {
-  const { users, loading, error } = useContext(UserContext).state;
+  const { state } = useContext(UserContext);
+  const { users, usersByMonth, error, loading } = state;
   const [userObj, setuserObj] = useState();
-  const data = {
-    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  const [lineData, setLineData] = useState();
+  const [doughnutStateData, setdoughnutStateData] = useState();
+
+  const lineStatsData = {
+    labels: [],
     datasets: [
       {
+        data: [],
         label: 'User dataset',
         fill: false,
         lineTension: 0.1,
@@ -31,8 +36,19 @@ function Dashboard() {
         pointHoverBorderColor: 'rgba(220,220,220,1)',
         pointHoverBorderWidth: 2,
         pointRadius: 1,
-        pointHitRadius: 10,
-        data: [65, 59, 80, 81, 56, 55, 40]
+        pointHitRadius: 10
+      }
+    ]
+  };
+
+  const DoughnutData = {
+    labels: ['Active', 'Inactive'],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.2)'],
+        borderColor: ['rgba(255,99,132,1)', 'rgba(54, 162, 235, 1)'],
+        borderWidth: 1
       }
     ]
   };
@@ -52,13 +68,32 @@ function Dashboard() {
       { name: 'Total Staffs', stats: totalStaffs },
       { name: 'Total inactive users', stats: inActiveUsers }
     ];
-    console.log(userObj);
+    DoughnutData.datasets[0].data.push(activeUsers);
+    DoughnutData.datasets[0].data.push(inActiveUsers);
+    setdoughnutStateData(DoughnutData);
+
     return userObj;
+  };
+
+  const arrangeUserStats = () => {
+    if (usersByMonth) {
+      usersByMonth.forEach(
+        (data) => (
+          lineStatsData.labels.push(data.month),
+          lineStatsData.datasets[0].data.push(data.count)
+        )
+      );
+      setLineData(lineStatsData);
+    }
   };
 
   useEffect(() => {
     setuserObj(getUsersData());
   }, [users]);
+
+  useEffect(() => {
+    arrangeUserStats();
+  }, [usersByMonth]);
 
   return (
     <div className="container">
@@ -67,13 +102,15 @@ function Dashboard() {
       <div className="row">
         <div className="col-md-8">
           <Card title="User overtime">
-            <Line data={data} width={100} height={50} />
+            <Line data={lineData} width={100} height={50} />
           </Card>
         </div>
 
         <div className="col-md-4 ">
           <Card title="Active Vs Inactive ">
-            <Doughnut data={data} width={100} height={115} />
+            {doughnutStateData ? (
+              <Doughnut data={doughnutStateData} width={100} height={115} />
+            ) : null}
           </Card>
         </div>
       </div>

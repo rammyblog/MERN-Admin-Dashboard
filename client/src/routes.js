@@ -6,6 +6,7 @@ import SingleUser from './components/dashboard/SingleUser/SingleUser';
 import LoginForm from './components/auth/Login';
 import checkAdminAuth from './helpers/AdminAuth';
 import AddNewUser from './components/dashboard/AddNewUser';
+import MissingPage from './components/Error/404';
 
 export const PrivateAdminRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -37,6 +38,7 @@ const BaseRoute = () => (
       component={SingleUser}
     />
     <Route exact path="/user/login" component={LoginForm} />
+    <Route component={MissingPage} />
   </Switch>
 );
 

@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const router = require('express').Router();
-const ensureAuth = require('./verifyJwtToken');
+const { verifiedFunction: ensureAuth } = require('./verifyJwtToken');
 
 const {
   registerUser,

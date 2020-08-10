@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-module.exports = function verifiedFunction(req, res, next) {
+function verifiedFunction(req, res, next) {
   // Gather the jwt access token from the request header
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
@@ -13,4 +13,15 @@ module.exports = function verifiedFunction(req, res, next) {
   } catch (error) {
     return res.status(400).send('Invalid token');
   }
-};
+}
+
+function checkAdmin(req, res, next) {
+  // Gather the jwt access token from the request header
+
+  if (req.user.role === 'admin') {
+    return next();
+  }
+  return res.status(401).send('Unauthorized');
+}
+
+module.exports = { verifiedFunction, checkAdmin };

@@ -95,11 +95,11 @@ function Dashboard() {
 
   useEffect(() => {
     setuserObj(getUsersData());
-  }, [users, getUsersData]);
+  }, [users]);
 
   useEffect(() => {
     arrangeUserStats();
-  }, [usersByMonth, arrangeUserStats]);
+  }, [usersByMonth]);
 
   return (
     <div className="container">

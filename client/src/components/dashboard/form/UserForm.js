@@ -112,7 +112,6 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
               ]}
             >
               <Select defaultValue={user ? user.role : 'member'}>
-                <Select.Option value="admin">Admin</Select.Option>
                 <Select.Option value="member">Member</Select.Option>
                 <Select.Option value="staff">Staff</Select.Option>
               </Select>
@@ -130,6 +129,7 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
             loading={loading}
             htmlType="submit"
             className="mr-2"
+            disabled={loading}
           >
             Save
           </Button>

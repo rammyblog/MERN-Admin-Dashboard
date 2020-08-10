@@ -15,13 +15,7 @@ const {
 } = require('../utils/validation');
 const randomTokenGen = require('../utils/generateToken');
 const passwordEncrypt = require('../utils/passwordEncrypt');
-const {
-  getUser,
-  getUsers,
-  getActiveUsers,
-  getSingleUserService,
-  getAndEditUser
-} = require('../services/user.services');
+const { getUser } = require('../services/user.services');
 const { getToken } = require('../services/Token.services');
 
 const validation = {
@@ -40,44 +34,6 @@ const handleValidation = (body, res, type) => {
 
   if (error) {
     throw Error(error.details[0].message);
-  }
-};
-
-const getAllUsers = async (req, res) => {
-  try {
-    const totalUsers = await getUsers({});
-
-    return res.status(200).json({ data: totalUsers });
-  } catch (err) {
-    return res.status(400).json({ error_msg: err.message });
-  }
-};
-
-const getAllActiveUsers = async (req, res) => {
-  try {
-    const users = await getActiveUsers({ isActive: true });
-    return res.status(200).json({ data: users });
-  } catch (err) {
-    return res.status(400).json({ error_msg: err.message });
-  }
-};
-
-const getSingleUser = async (req, res) => {
-  try {
-    const user = await getSingleUserService({ _id: req.params.id });
-    return res.status(200).json({ data: user });
-  } catch (err) {
-    return res.status(400).json({ error_msg: err.message });
-  }
-};
-
-const getLoggedInUser = async (req, res) => {
-  try {
-    console.log(req.user._id);
-    const user = await getSingleUserService({ _id: req.user._id });
-    return res.status(200).json({ data: user });
-  } catch (err) {
-    return res.status(400).json({ error_msg: err.message });
   }
 };
 
@@ -134,17 +90,6 @@ const loginUser = async (req, res) => {
       process.env.TOKEN_SECRET
     );
     return res.status(200).json({ access_token: token });
-  } catch (err) {
-    return res.status(400).json({ error_msg: err.message });
-  }
-};
-
-const editUserAction = async (req, res) => {
-  try {
-    handleValidation(req.body, res, 'editUser');
-    const { _id } = req.body;
-    const user = await getAndEditUser({ _id }, req.body);
-    return res.json({ data: user });
   } catch (err) {
     return res.status(400).json({ error_msg: err.message });
   }
@@ -274,16 +219,11 @@ const changePassword = async (req, res) => {
 };
 
 module.exports = {
-  getAllUsers,
-  getSingleUser,
-  getAllActiveUsers,
   registerUser,
   loginUser,
   verifyUserRegistration,
   resendVerificationToken,
   sendPasswordResetToken,
   passwordReset,
-  changePassword,
-  editUserAction,
-  getLoggedInUser
+  changePassword
 };

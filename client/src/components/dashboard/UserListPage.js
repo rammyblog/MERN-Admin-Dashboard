@@ -3,10 +3,11 @@ import DashboardHOC from './DashboardHOC';
 import UserTable from './table/UserTable';
 import { UserContext } from '../../context/userState/userContext';
 import { Link } from 'react-router-dom';
+import CustomLoader from '../common/CustomLoader';
 
 const index = '2';
 function UserListPage() {
-  const { users, loading, error } = useContext(UserContext).state;
+  const { users, loading } = useContext(UserContext).state;
 
   return (
     <div>
@@ -16,7 +17,11 @@ function UserListPage() {
       >
         Add new user
       </Link>
-      {users ? <UserTable data={users} /> : null}
+      {!loading ? (
+        <UserTable data={users} />
+      ) : (
+        <CustomLoader text={'Getting users from DB! Hold on gee...'} />
+      )}
     </div>
   );
 }

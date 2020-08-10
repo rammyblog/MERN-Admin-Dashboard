@@ -1,14 +1,14 @@
 import React from 'react';
 import { Row, Col } from 'antd';
 import { Link } from 'react-router-dom';
-import { Form, Input, Button, Select, Switch, Typography, Tooltip } from 'antd';
+import { Form, Input, Button, Select, Switch, Tooltip } from 'antd';
 import {
   UserOutlined,
   LockOutlined,
   QuestionCircleOutlined
 } from '@ant-design/icons';
 
-function UserForm({ user, onFinish, changePasswordModal }) {
+function UserForm({ user, onFinish, changePasswordModal, loading }) {
   return (
     <>
       <Form
@@ -126,8 +126,9 @@ function UserForm({ user, onFinish, changePasswordModal }) {
         <Form.Item>
           <Button
             type="primary"
+            loading={loading}
             htmlType="submit"
-            className="login-form-button"
+            className="mr-2"
           >
             Save
           </Button>

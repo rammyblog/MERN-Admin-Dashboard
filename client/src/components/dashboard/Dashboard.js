@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Card } from 'antd';
+import { Card, Spin } from 'antd';
 import { UserContext } from '../../context/userState/userContext';
 import UserStats from './UserStats/UserStats';
 import { Typography } from 'antd';
@@ -95,11 +95,11 @@ function Dashboard() {
 
   useEffect(() => {
     setuserObj(getUsersData());
-  }, [users]);
+  }, [users, getUsersData]);
 
   useEffect(() => {
     arrangeUserStats();
-  }, [usersByMonth]);
+  }, [usersByMonth, arrangeUserStats]);
 
   return (
     <div className="container">
@@ -108,14 +108,20 @@ function Dashboard() {
       <div className="row">
         <div className="col-md-8">
           <Card title="User overtime">
-            <Line data={lineData} width={100} height={50} />
+            <Spin spinning={loading}>
+              <Line data={lineData} width={100} height={50} />
+            </Spin>
           </Card>
         </div>
 
         <div className="col-md-4 ">
           <Card title="Active Vs Inactive ">
             {doughnutStateData ? (
-              <Doughnut data={doughnutStateData} width={100} height={115} />
+              <>
+                <Spin spinning={loading}>
+                  <Doughnut data={doughnutStateData} width={100} height={115} />
+                </Spin>
+              </>
             ) : null}
           </Card>
         </div>

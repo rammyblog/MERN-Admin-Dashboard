@@ -4,8 +4,7 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-import userReducer from './userReducer';
-import axios from 'axios';
+seperimport userReducer from './userReducer';
 import * as types from './userActionTypes';
 import mernDashApi from '../../helpers/apiUtils';
 
@@ -67,7 +66,7 @@ export const UserProvider = ({ children }) => {
       type: types.USER_START
     });
     try {
-      const res = await mernDashApi.post('/api/user/register', data);
+      const res = await mernDashApi.post('/api/auth/register', data);
       dispatch({
         type: types.USER_ADD,
         payload: res.data.data
@@ -93,9 +92,8 @@ export const UserProvider = ({ children }) => {
     } catch (error) {
       dispatch({
         type: types.USER_FAILURE,
-        payload: error.message
+        payload: error.response.data.error_msg
       });
-      console.log(error.message, { error });
     }
   }, []);
 
@@ -114,9 +112,8 @@ export const UserProvider = ({ children }) => {
       } catch (error) {
         dispatch({
           type: types.USER_FAILURE,
-          payload: error.message
+          payload: error.response.data.error_msg
         });
-        console.log(error.message, { error });
       }
     } else {
       const user = tempState.fliter((user) => user._id == id);
@@ -150,7 +147,7 @@ export const UserProvider = ({ children }) => {
       type: types.USER_START
     });
     try {
-      await mernDashApi.post('/api/user/change-password', data);
+      await mernDashApi.post('/api/auth/change-password', data);
       dispatch({
         type: types.USER_PASSWORD_CHANGE
       });

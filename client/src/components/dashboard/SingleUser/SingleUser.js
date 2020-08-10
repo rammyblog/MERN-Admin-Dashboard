@@ -1,15 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 import DashboardHOC from '../DashboardHOC';
-import { Row, Col, Typography } from 'antd';
+import { Typography } from 'antd';
 import SingleUserStyled from './SingleUserStyled';
 import { UserContext } from '../../../context/userState/userContext';
-
-import { Link } from 'react-router-dom';
 import PasswordForm from '../password/PasswordForm';
 import UserForm from '../form/UserForm';
 
-const index = 3;
 function SingleUser(props) {
   const {
     state,
@@ -19,7 +16,7 @@ function SingleUser(props) {
   } = useContext(UserContext);
   const [passwordFormVisibility, setpasswordFormVisibility] = useState(false);
 
-  const { users, error, loading, user } = state;
+  const { error, loading, user } = state;
   // const [initialValues, setinitialValues] = useState(null);
   const handlePasswordChange = (data) => {
     changeUserPasswordAction(data);
@@ -33,7 +30,7 @@ function SingleUser(props) {
 
   useEffect(() => {
     fetchSingleUser(id);
-  }, []);
+  }, [fetchSingleUser, id]);
 
   const onFinish = (values) => {
     values._id = user._id;
@@ -49,12 +46,14 @@ function SingleUser(props) {
             user={user}
             onFinish={onFinish}
             changePasswordModal={changePasswordModal}
+            loading={loading}
           />
         </>
       ) : null}
       <PasswordForm
         visible={passwordFormVisibility}
         onCreate={handlePasswordChange}
+        loading={loading}
         onCancel={() => {
           setpasswordFormVisibility(false);
         }}

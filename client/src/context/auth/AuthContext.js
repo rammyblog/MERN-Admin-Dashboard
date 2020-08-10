@@ -1,9 +1,4 @@
-import React, {
-  createContext,
-  useReducer,
-  useEffect,
-  useCallback
-} from 'react';
+import React, { createContext, useReducer, useCallback } from 'react';
 import userReducer from './AuthReducer';
 import axios from 'axios';
 import * as types from './authActionTypes';
@@ -31,7 +26,7 @@ export const AuthProvider = ({ children }) => {
       type: types.AUTH_START
     });
     try {
-      const res = await axios.post('/api/user/login', data);
+      const res = await axios.post('/api/auth/login', data);
       localStorage.setItem('mern_admin_dashboard', res.data.access_token);
       dispatch({
         type: types.AUTH_SUCCESS,
@@ -42,13 +37,8 @@ export const AuthProvider = ({ children }) => {
         type: types.AUTH_FAILURE,
         payload: error.response.data.error_msg
       });
-      console.log(error.message, { error });
     }
   }, []);
-
-  // useEffect(() => {
-  //   // fetchUsers();
-  // }, []);
 
   return (
     <AuthContext.Provider

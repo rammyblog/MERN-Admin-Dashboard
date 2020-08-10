@@ -8,26 +8,25 @@ const LoginForm = ({ history }) => {
   const { LoginAction, state, AuthReset } = useContext(AuthContext);
   const { token, loading, error, errResponse } = state;
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
     LoginAction(values);
   };
 
   useEffect(() => {
     AuthReset();
-  }, []);
+  }, [AuthReset]);
 
   useEffect(() => {
     checkAdminAuth(token);
     if (token) {
       history.push('/dashboard');
     }
-  }, [token]);
+  }, [token, history]);
 
   useEffect(() => {
     if (error) {
       message.error(errResponse);
     }
-  }, [error]);
+  }, [error, errResponse]);
 
   return (
     <div className="test">
@@ -83,6 +82,7 @@ const LoginForm = ({ history }) => {
                     type="primary"
                     htmlType="submit"
                     className="login-form-button"
+                    loading={loading}
                   >
                     Log in
                   </Button>

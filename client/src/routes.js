@@ -7,6 +7,7 @@ import LoginForm from './components/auth/Login';
 import checkAdminAuth from './helpers/AdminAuth';
 import AddNewUser from './components/dashboard/AddNewUser';
 import MissingPage from './components/Error/404';
+import Home from './components/Home';
 
 export const PrivateAdminRoute = ({ component: Component, ...rest }) => (
   <Route
@@ -24,6 +25,7 @@ export const PrivateAdminRoute = ({ component: Component, ...rest }) => (
 
 const BaseRoute = () => (
   <Switch>
+    <Route exact path="/" component={Home} />
     <PrivateAdminRoute exact path="/dashboard" component={Dashboard} />
     <PrivateAdminRoute exact path="/dashboard/users" component={UserListPage} />
     <PrivateAdminRoute

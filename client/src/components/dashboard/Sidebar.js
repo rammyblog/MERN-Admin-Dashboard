@@ -10,7 +10,17 @@ const { Sider } = Layout;
 function Sidebar({ collapsed, index, loggedInUserId }) {
   return (
     <SidebarStyled collapsed={collapsed}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider
+        trigger={null}
+        collapsible
+        collapsed={collapsed}
+        // style={{
+        //   overflow: 'auto',
+        //   height: '100vh',
+        //   position: 'fixed',
+        //   left: 0
+        // }}
+      >
         <div className="logo">
           <Title level={2}>MERN DASH</Title>
         </div>

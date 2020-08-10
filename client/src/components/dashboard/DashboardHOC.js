@@ -3,6 +3,7 @@ import Sidebar from './Sidebar';
 import PageHeader from './PageHeader';
 import { Layout, message } from 'antd';
 import { UserContext } from '../../context/userState/userContext';
+import CustomFooter from './Footer';
 
 function DashboardHOC(Component, index) {
   return function DashboardCustomHoc(props) {
@@ -49,6 +50,7 @@ function DashboardHOC(Component, index) {
           <div className="container">
             <Component {...props} />
           </div>
+          <CustomFooter />
         </Layout>
       </Layout>
     );

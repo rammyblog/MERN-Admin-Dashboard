@@ -13,7 +13,7 @@ const LoginForm = ({ history }) => {
 
   useEffect(() => {
     AuthReset();
-  }, [AuthReset]);
+  }, []);
 
   useEffect(() => {
     checkAdminAuth(token);

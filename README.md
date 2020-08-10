@@ -11,6 +11,13 @@
 
 > An admin dashboard built using Node, Express, Node and React to for managing users easily. Coming from a django background, there is a free admin panel all models, So I decided to build one with MERN so I could easily manage the user data easily.
 
+> To test the live
+
+```
+Email: test@gmail.com
+Password: testing
+```
+
 ### 🏠 [Homepage](https://mern-admin-dashboard.herokuapp.com)
 
 ### ✨ [Demo](https://mern-admin-dashboard.herokuapp.com/dashboard/)

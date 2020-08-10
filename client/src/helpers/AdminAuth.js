@@ -4,10 +4,7 @@ const checkAdminAuth = () => {
   if (!token) return false;
 
   try {
-    console.log(decode(token));
-
     const { exp, role } = decode(token);
-    console.log(role);
 
     if (exp < new Date().getTime() / 1000) {
       return false;

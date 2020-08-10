@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 
 import DashboardHOC from '../DashboardHOC';
-import { Typography } from 'antd';
+import { Typography, Popconfirm, Button } from 'antd';
 import SingleUserStyled from './SingleUserStyled';
 import { UserContext } from '../../../context/userState/userContext';
 import PasswordForm from '../password/PasswordForm';
@@ -12,6 +12,7 @@ function SingleUser(props) {
     state,
     fetchSingleUser,
     editUserAction,
+    deleteUserAction,
     changeUserPasswordAction
   } = useContext(UserContext);
   const [passwordFormVisibility, setpasswordFormVisibility] = useState(false);
@@ -37,11 +38,28 @@ function SingleUser(props) {
     editUserAction(values);
   };
 
+  const onConfirmDelete = () => {
+    deleteUserAction(id);
+    props.history.push('/dashboard/users');
+  };
+
   return (
     <SingleUserStyled>
       {user ? (
         <>
           <Typography>Edit {user.name}'s Profile</Typography>
+          <Popconfirm
+            title="Are you sure delete this user?"
+            onConfirm={onConfirmDelete}
+            // onCancel={cancel}
+            okText="Delete"
+            cancelText="Cancel"
+          >
+            <Button className="float-right" danger>
+              Delete {user.name}
+            </Button>
+          </Popconfirm>
+
           <UserForm
             user={user}
             onFinish={onFinish}

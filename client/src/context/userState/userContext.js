@@ -4,7 +4,7 @@ import React, {
   useEffect,
   useCallback
 } from 'react';
-seperimport userReducer from './userReducer';
+import userReducer from './userReducer';
 import * as types from './userActionTypes';
 import mernDashApi from '../../helpers/apiUtils';
 
@@ -24,6 +24,12 @@ export const UserContext = createContext(initialUserState);
 export const UserProvider = ({ children }) => {
   //   const BASE_AUTH_URL = process.env.API_BASE_URL + "api/"
   const [state, dispatch] = useReducer(userReducer, initialUserState);
+
+  const UserReset = () => {
+    dispatch({
+      type: types.USER_RESET
+    });
+  };
 
   const fetchUsers = useCallback(async () => {
     dispatch({
@@ -142,6 +148,25 @@ export const UserProvider = ({ children }) => {
     }
   }, []);
 
+  const deleteUserAction = useCallback(async (id) => {
+    dispatch({
+      type: types.USER_START
+    });
+    try {
+      // await mernDashApi.post(`/api/user/delete/${id}`);
+      console.log(id);
+      dispatch({
+        type: types.USER_DELETE,
+        payload: id
+      });
+    } catch (error) {
+      dispatch({
+        type: types.USER_FAILURE,
+        payload: error.response.data.error_msg
+      });
+    }
+  }, []);
+
   const changeUserPasswordAction = useCallback(async (data) => {
     dispatch({
       type: types.USER_START
@@ -174,7 +199,9 @@ export const UserProvider = ({ children }) => {
         fetchUsersByMonth,
         editUserAction,
         changeUserPasswordAction,
-        addUser
+        addUser,
+        deleteUserAction,
+        UserReset
       }}
     >
       {children}

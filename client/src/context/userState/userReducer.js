@@ -1,4 +1,5 @@
 import * as types from './userActionTypes';
+import { message } from 'antd';
 
 export default (state, action) => {
   switch (action.type) {
@@ -55,6 +56,19 @@ export default (state, action) => {
         user: action.payload,
         message: 'Edited success'
       };
+
+    case types.USER_DELETE:
+      return {
+        ...state,
+        users: [
+          ...state.users.slice().filter((data) => data._id !== action.payload)
+        ],
+        loading: false,
+        error: false,
+        errResponse: '',
+        user: null,
+        message: 'Deleted successfully'
+      };
     case types.USER_PASSWORD_CHANGE:
       return {
         ...state,
@@ -85,8 +99,7 @@ export default (state, action) => {
         loading: false,
         error: false,
         errResponse: '',
-        token: null,
-        user: null
+        message: null
       };
 
     default:

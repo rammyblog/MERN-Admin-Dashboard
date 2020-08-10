@@ -18,6 +18,7 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
         onFinish={onFinish}
         layout="vertical"
         size="large"
+        style={{ clear: 'both' }}
       >
         <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
           <Col span={12}>

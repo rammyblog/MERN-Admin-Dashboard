@@ -10,7 +10,8 @@ function DashboardHOC(Component, index) {
     const handleSetCollapsed = () => {
       setCollapsed(!collapsed);
     };
-    const { state } = useContext(UserContext);
+    const { state, UserReset } = useContext(UserContext);
+    // const { AuthReset } = useContext(AuthReset);
     const {
       error,
       errResponse,
@@ -20,12 +21,14 @@ function DashboardHOC(Component, index) {
     useEffect(() => {
       if (error) {
         message.error(errResponse);
+        UserReset();
       }
     }, [error]);
 
     useEffect(() => {
       if (userMessage) {
         message.success(userMessage);
+        UserReset();
       }
     }, [userMessage]);
     const { history } = props;

@@ -5,7 +5,8 @@ const {
   getAllUsers,
   getAllActiveUsers,
   getSingleUser,
-  editUserAction
+  editUserAction,
+  deleteUserAction
 } = require('../controllers/userController');
 const ConvertIntToMonth = require('../helpers/ConvertIntToMonth');
 const User = require('../models/User');
@@ -15,6 +16,8 @@ router.get('/me', ensureAuth, getLoggedInUser);
 
 router.get('/active', ensureAuth, getAllActiveUsers);
 router.get('/single/:id', getSingleUser);
+router.get('/delete/:id', deleteUserAction);
+
 router.patch('/edit-user', ensureAuth, editUserAction);
 
 router.get('/group/group-by-month', async (req, res) => {

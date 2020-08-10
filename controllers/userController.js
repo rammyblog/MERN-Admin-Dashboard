@@ -6,6 +6,8 @@ const {
   getAndEditUser
 } = require('../services/user.services');
 
+const handleValidation = require('../utils/validation');
+
 const getAllUsers = async (req, res) => {
   try {
     const totalUsers = await getUsers({});
@@ -54,10 +56,21 @@ const editUserAction = async (req, res) => {
   }
 };
 
+const deleteUserAction = async (req, res) => {
+  try {
+    const user = await getSingleUserService({ _id: req.params.id });
+    await user.remove();
+    return res.json({ data: 'Sucess' });
+  } catch (err) {
+    return res.status(400).json({ error_msg: err.message });
+  }
+};
+
 module.exports = {
   getAllUsers,
   getAllActiveUsers,
   getLoggedInUser,
   getSingleUser,
-  editUserAction
+  editUserAction,
+  deleteUserAction
 };

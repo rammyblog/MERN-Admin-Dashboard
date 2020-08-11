@@ -35,6 +35,7 @@ function SingleUser(props) {
 
   const onFinish = (values) => {
     values._id = user._id;
+    delete values.password;
     editUserAction(values);
   };
 

@@ -6,7 +6,19 @@ const {
   getAndEditUser
 } = require('../services/user.services');
 
-const handleValidation = require('../utils/validation');
+const { userEditValidation } = require('../utils/validation');
+
+const validation = {
+  editUser: userEditValidation
+};
+
+const handleValidation = (body, res, type) => {
+  const { error } = validation[type](body);
+
+  if (error) {
+    throw Error(error.details[0].message);
+  }
+};
 
 const getAllUsers = async (req, res) => {
   try {

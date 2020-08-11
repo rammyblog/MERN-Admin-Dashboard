@@ -61,12 +61,16 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
                   'Password'
                 )
               }
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Password!'
-                }
-              ]}
+              rules={
+                user
+                  ? []
+                  : [
+                      {
+                        required: true,
+                        message: 'Please input your Password!'
+                      }
+                    ]
+              }
               name="password"
             >
               <Input

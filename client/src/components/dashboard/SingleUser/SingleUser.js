@@ -6,6 +6,7 @@ import SingleUserStyled from './SingleUserStyled';
 import { UserContext } from '../../../context/userState/userContext';
 import PasswordForm from '../password/PasswordForm';
 import UserForm from '../form/UserForm';
+import CustomLoader from '../../common/CustomLoader';
 
 function SingleUser(props) {
   const {

@@ -68,7 +68,11 @@ function SingleUser(props) {
             loading={loading}
           />
         </>
-      ) : null}
+      ) : (
+        <CustomLoader
+          text={'Chill out, I am trying to get some data for you'}
+        />
+      )}
       <PasswordForm
         visible={passwordFormVisibility}
         onCreate={handlePasswordChange}

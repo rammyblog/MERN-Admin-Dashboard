@@ -30,8 +30,6 @@ const validation = {
 
 const handleValidation = (body, res, type) => {
   const { error } = validation[type](body);
-  console.log(error);
-
   if (error) {
     throw Error(error.details[0].message);
   }

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Form, Input, Button, Checkbox, message } from 'antd';
+import { Form, notification, Input, Button, Checkbox, message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { AuthContext } from '../../context/auth/AuthContext';
 import checkAdminAuth from '../../helpers/AdminAuth';
@@ -11,8 +11,18 @@ const LoginForm = ({ history }) => {
     LoginAction(values);
   };
 
+  const openNotification = () => {
+    const args = {
+      message: 'Login Details',
+      description: 'Email: test@gmail.com password: testing',
+      duration: 0
+    };
+    notification.open(args);
+  };
+
   useEffect(() => {
     AuthReset();
+    openNotification();
   }, []);
 
   useEffect(() => {

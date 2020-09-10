@@ -110,7 +110,7 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
               name="role"
               rules={[
                 {
-                  required: true,
+                  required: false,
                   message: 'Pick a role!'
                 }
               ]}

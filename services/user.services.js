@@ -37,7 +37,7 @@ const getSingleUserService = async (query) => {
 
 const getUsers = async (query) => {
   try {
-    const users = await User.find(query);
+    const users = await User.find(query).find({ role: ['member', 'staff'] });
     return users;
   } catch (err) {
     throw Error(err);
@@ -46,7 +46,7 @@ const getUsers = async (query) => {
 
 const getActiveUsers = async (query) => {
   try {
-    const user = await User.find(query);
+    const user = await User.find(query).find({ role: ['member', 'staff'] });
     return user;
   } catch (err) {
     throw Error(err);

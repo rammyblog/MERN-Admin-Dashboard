@@ -51,7 +51,6 @@ const registerUser = async (req, res) => {
 
     // Create a new user
     const user = new User(req.body);
-    console.log(user);
 
     const savedUser = await user.save();
     // Generate and send token
@@ -64,7 +63,7 @@ const registerUser = async (req, res) => {
     // Send email using sendgrid here
     return res.status(201).json({ data: savedUser });
   } catch (err) {
-    // console.log({ err );
+    console.log({ err });
     return res.status(400).json({ error_msg: err.message });
   }
 };

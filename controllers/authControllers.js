@@ -159,7 +159,7 @@ const sendPasswordResetToken = async (req, res) => {
 const passwordReset = async (req, res) => {
   try {
     handleValidation(req.body, res, 'passwordReset');
-    const { email, reqToken, newPassword } = req.body;
+    const { email, token: reqToken, password: newPassword } = req.body;
     const token = await getToken({ token: reqToken });
     // User confimation
     const user = await getUser({ email });
@@ -179,6 +179,7 @@ const passwordReset = async (req, res) => {
     // Send an email to the user telling the password change successful
     return res.status(200).json({ data: 'Success' });
   } catch (err) {
+    console.log(err);
     return res.status(400).json({ error_msg: err.message });
   }
 };
@@ -187,6 +188,9 @@ const changePassword = async (req, res) => {
   try {
     const { newPassword, oldPassword, admin } = req.body;
     const user = await getUser({ _id: req.user._id });
+    if (user.role === 'admin') {
+      return res.status(401).json({ error_msg: 'Nice try' });
+    }
     if (admin) {
       user.password = await passwordEncrypt(newPassword);
     } else {

@@ -39,50 +39,52 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item
-              label={
-                user ? (
-                  <span>
-                    Change password&nbsp;
-                    <Tooltip
-                      title={
-                        <p
-                          style={{ cursor: 'pointer' }}
-                          onClick={() => changePasswordModal()}
-                        >
-                          Change Password
-                        </p>
-                      }
-                    >
-                      <QuestionCircleOutlined />
-                    </Tooltip>
-                  </span>
-                ) : (
-                  'Password'
-                )
-              }
-              rules={
-                user
-                  ? []
-                  : [
-                      {
-                        required: true,
-                        message: 'Please input your Password!'
-                      }
-                    ]
-              }
-              name="password"
-            >
-              <Input
-                prefix={<LockOutlined className="site-form-item-icon" />}
-                type="password"
-                placeholder="Password"
-                // {user ? readOnly: false}
+            {user.role !== 'admin' ? (
+              <Form.Item
+                label={
+                  user ? (
+                    <span>
+                      Change password&nbsp;
+                      <Tooltip
+                        title={
+                          <p
+                            style={{ cursor: 'pointer' }}
+                            onClick={() => changePasswordModal()}
+                          >
+                            Change Password
+                          </p>
+                        }
+                      >
+                        <QuestionCircleOutlined />
+                      </Tooltip>
+                    </span>
+                  ) : (
+                    'Password'
+                  )
+                }
+                rules={
+                  user
+                    ? []
+                    : [
+                        {
+                          required: true,
+                          message: 'Please input your Password!'
+                        }
+                      ]
+                }
+                name="password"
+              >
+                <Input
+                  prefix={<LockOutlined className="site-form-item-icon" />}
+                  type="password"
+                  placeholder="Password"
+                  // {user ? readOnly: false}
 
-                readOnly={user ? true : false}
-                value={user ? 'rtfgyhuj' : ''}
-              />
-            </Form.Item>
+                  readOnly={user ? true : false}
+                  value={user ? 'rtfgyhuj' : ''}
+                />
+              </Form.Item>
+            ) : null}
           </Col>
         </Row>
 

@@ -19,6 +19,7 @@ function SingleUser(props) {
   const [passwordFormVisibility, setpasswordFormVisibility] = useState(false);
 
   const { error, loading, user } = state;
+
   // const [initialValues, setinitialValues] = useState(null);
   const handlePasswordChange = (data) => {
     changeUserPasswordAction(data);
@@ -50,17 +51,19 @@ function SingleUser(props) {
       {user ? (
         <>
           <Typography>Edit {user.name}'s Profile</Typography>
-          <Popconfirm
-            title="Are you sure delete this user?"
-            onConfirm={onConfirmDelete}
-            // onCancel={cancel}
-            okText="Delete"
-            cancelText="Cancel"
-          >
-            <Button className="float-right" danger>
-              Delete {user.name}
-            </Button>
-          </Popconfirm>
+          {user.role !== 'admin' ? (
+            <Popconfirm
+              title="Are you sure delete this user?"
+              onConfirm={onConfirmDelete}
+              // onCancel={cancel}
+              okText="Delete"
+              cancelText="Cancel"
+            >
+              <Button className="float-right" danger>
+                Delete {user.name}
+              </Button>
+            </Popconfirm>
+          ) : null}
 
           <UserForm
             user={user}

@@ -106,23 +106,25 @@ function UserForm({ user, onFinish, changePasswordModal, loading }) {
               />
             </Form.Item>
           </Col>
-          <Col span={12}>
-            <Form.Item
-              label="Role"
-              name="role"
-              rules={[
-                {
-                  required: false,
-                  message: 'Pick a role!'
-                }
-              ]}
-            >
-              <Select defaultValue={user ? user.role : 'member'}>
-                <Select.Option value="member">Member</Select.Option>
-                <Select.Option value="staff">Staff</Select.Option>
-              </Select>
-            </Form.Item>
-          </Col>
+          {user.role !== 'admin' && (
+            <Col span={12}>
+              <Form.Item
+                label="Role"
+                name="role"
+                rules={[
+                  {
+                    required: false,
+                    message: 'Pick a role!'
+                  }
+                ]}
+              >
+                <Select defaultValue={user ? user.role : 'member'}>
+                  <Select.Option value="member">Member</Select.Option>
+                  <Select.Option value="staff">Staff</Select.Option>
+                </Select>
+              </Form.Item>
+            </Col>
+          )}
         </Row>
 
         <Form.Item label="Active Status" name="isActive">

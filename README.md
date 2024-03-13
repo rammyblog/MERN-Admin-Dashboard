@@ -66,7 +66,7 @@ If you find an issue running this project please send in a PR.
 
 👤 **Onasanya Tunde**
 
-- Website: https://onasanyatunde.codes
+- Website: https://onasanyatunde.dev
 - Twitter: [@simply_rammy](https://twitter.com/simply_rammy)
 - Github: [@rammyblog](https://github.com/rammyblog)
 - LinkedIn: [@onasanya-tunde](https://linkedin.com/in/onasanya-tunde)
